@@ -5,7 +5,8 @@ similarity functions directly within Neo4j via Cypher.
 
 == Building
 
-This project uses maven, to build a jar-file with the procedure in this
+This project uses maven, to build a jar-file for the similarity
+ functions defined in this
 project, simply package the project with maven:
 
     mvn clean package
