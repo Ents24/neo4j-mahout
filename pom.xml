@@ -5,7 +5,7 @@
 
   <groupId>com.ents24.neo4j</groupId>
   <artifactId>similarity</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <name>Neo4j Similarity Functions</name>
@@ -68,6 +68,16 @@
     </dependency>
 
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>17.0</version>
+      </dependency>
+     </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
