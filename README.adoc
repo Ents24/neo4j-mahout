@@ -11,7 +11,7 @@ project, simply package the project with maven:
 
     mvn clean package
 
-This will produce a jar-file,`target/similarity-1.0.0-SNAPSHOT.jar`,
+This will produce a jar-file,`target/similarity-1.0.1-SNAPSHOT.jar`,
 that can be deployed in the `plugin` directory of your Neo4j instance.
 
 == License
