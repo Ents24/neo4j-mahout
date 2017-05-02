@@ -5,6 +5,8 @@ import org.neo4j.procedure.Description;
 import org.neo4j.procedure.Name;
 import org.neo4j.procedure.UserFunction;
 
+import java.util.List;
+
 /**
  * This is an example how you can create a simple user-defined function for Neo4j.
  */
@@ -72,5 +74,15 @@ public class Similarity
         double normalisedJointEntropy = org.apache.mahout.math.stats.LogLikelihood.entropy(AB, A-AB, B-AB, total-A-B+AB) / total;
 
         return 1.0 - (this.mutualInformation(AB, A, B, total) / normalisedJointEntropy);
+    }
+
+    @UserFunction
+    @Description("similarity.product([0.5, 0.4, 0.2]) = 0.04 - return the product of the entries in a list")
+    public double product(@Name("numbers") List<Number> list) {
+        double product = 1;
+        for (Number number : list) {
+            product *= number.doubleValue();
+        }
+        return product;
     }
 }

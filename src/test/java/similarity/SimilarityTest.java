@@ -179,4 +179,23 @@ public class SimilarityTest
             assertThat( result, equalTo( 0.0 ) );
         }
     }
+
+    @Test
+    public void productCorrect() throws Throwable
+    {
+        // This is in a try-block, to make sure we close the driver after the test
+        try( Driver driver = GraphDatabase
+                .driver( neo4j.boltURI() , Config.build().withEncryptionLevel( Config.EncryptionLevel.NONE ).toConfig() ) )
+        {
+            // Given
+            Session session = driver.session();
+            double result;
+
+            // When - some trackers in common
+            result = session.run( "RETURN similarity.product([0.5, 0.4, 0.2]) AS result").single().get("result").asDouble();
+
+            // Then
+            assertThat( result, equalTo( 0.04000000000000001 ) );
+        }
+    }
 }
