@@ -4,7 +4,7 @@
   <groupId>com.ents24.neo4j</groupId>
   <artifactId>similarity</artifactId>
   <name>Neo4j Similarity Functions</name>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <description>A container for similarity functions for use natively within Neo4j</description>
   <build>
     <plugins>
@@ -126,6 +126,18 @@
         <exclusion>
           <artifactId>hamcrest-core</artifactId>
           <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j.procedure</groupId>
+      <artifactId>apoc</artifactId>
+      <version>3.1.0.3</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>javafaker</artifactId>
+          <groupId>com.github.javafaker</groupId>
         </exclusion>
       </exclusions>
     </dependency>
