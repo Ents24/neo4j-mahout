@@ -93,14 +93,14 @@ public class Affinity {
         params.put( "id", user.getProperty("id") );
 
         // calculate TRACKS contribution
-        db.execute("MATCH (u:User {id: {id}})-[t:TRACKS]->(:Artist)-[s:SIMILAR_TO]-(b:Artist:Active)\n" +
+        db.execute("MATCH (u:User {id: {id}})-[:TRACKS]->(:Artist)-[s:SIMILAR_TO]-(b:Artist:Active)\n" +
                 "WHERE not(exists((u)-[:TRACKS]->(b)))\n" +
                 "WITH u, b, min(s.NMID) AS min, avg(s.NMID) AS avg, similarity.product(collect(s.NMID)) AS prod, count(s.NMID) AS count\n" +
                 "MERGE (u)-[aff:HAS_AFFINITY_FOR]->(b)\n" +
                 "SET aff.min = min, aff.avg = avg, aff.prod = prod, aff.count = count", params);
 
         // calculate PROXY_TRACKS contribution
-        db.execute("MATCH (u:User {id: {id}})-[t:PROXY_TRACKS]->(:Artist)-[s:SIMILAR_TO]-(b:Artist:Active)\n" +
+        db.execute("MATCH (u:User {id: {id}})-[:PROXY_TRACKS]->(:Artist)-[s:SIMILAR_TO]-(b:Artist:Active)\n" +
                 "WHERE not(exists((u)-[:TRACKS]->(b)))\n" +
                 "WITH u, b, min(s.NMID) AS min, avg(s.NMID) AS avg, similarity.product(collect(s.NMID)) AS prod, count(s.NMID) AS count\n" +
                 "MERGE (u)-[aff:HAS_AFFINITY_FOR]->(b)\n" +

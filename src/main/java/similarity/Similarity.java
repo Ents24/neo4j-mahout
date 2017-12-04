@@ -85,4 +85,26 @@ public class Similarity
         }
         return product;
     }
+
+    @UserFunction
+    @Description("similarity.complementProduct([0.5, 0.4, 0.2]) = 1 - ((1 - 0.5) * (1 - 0.4) * (1 - 0.2)) = " +
+            "1 - (0.5 * 0.6 * 0.8) = 0.76 - return the complement of the product of the complement of the " +
+            "entries in a list")
+    public double complementProduct(@Name("numbers") List<Number> list) {
+        double product = 1;
+        for (Number number : list) {
+            product *= (1d - number.doubleValue());
+        }
+        return (1d - product);
+    }
+
+    @UserFunction
+    @Description("similarity.sublist([1, 2, 3, 4, 5], 0, 2) = [1, 2] - return a sublist of the input list")
+    public List sublist(@Name("list") List list, @Name("index start") Number fromIndex, @Name("number of elements") Number count) {
+        Number toIndex = fromIndex.intValue() + count.intValue();
+        if (toIndex.intValue() > list.size()) {
+            toIndex = list.size();
+        }
+        return list.subList(fromIndex.intValue(), toIndex.intValue());
+    }
 }

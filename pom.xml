@@ -5,7 +5,7 @@
 
   <groupId>com.ents24.neo4j</groupId>
   <artifactId>similarity</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <name>Neo4j Similarity Functions</name>

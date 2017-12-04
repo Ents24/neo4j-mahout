@@ -4,7 +4,7 @@
   <groupId>com.ents24.neo4j</groupId>
   <artifactId>similarity</artifactId>
   <name>Neo4j Similarity Functions</name>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
   <description>A container for similarity functions for use natively within Neo4j</description>
   <build>
     <plugins>

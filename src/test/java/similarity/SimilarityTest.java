@@ -8,8 +8,14 @@ import org.neo4j.driver.v1.GraphDatabase;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.harness.junit.Neo4jRule;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class SimilarityTest
 {
@@ -196,6 +202,70 @@ public class SimilarityTest
 
             // Then
             assertThat( result, equalTo( 0.04000000000000001 ) );
+        }
+    }
+
+    @Test
+    public void productComplementCorrect() throws Throwable
+    {
+        // This is in a try-block, to make sure we close the driver after the test
+        try( Driver driver = GraphDatabase
+                .driver( neo4j.boltURI() , Config.build().withEncryptionLevel( Config.EncryptionLevel.NONE ).toConfig() ) )
+        {
+            // Given
+            Session session = driver.session();
+            double result;
+
+            // When - some trackers in common
+            result = session.run( "RETURN similarity.complementProduct([0.5, 0.4, 0.2]) AS result").single().get("result").asDouble();
+
+            // Then
+            assertThat( result, equalTo( 0.76 ) );
+        }
+    }
+
+    @Test
+    public void sublistCorrect() throws Throwable
+    {
+        // This is in a try-block, to make sure we close the driver after the test
+        try( Driver driver = GraphDatabase
+                .driver( neo4j.boltURI() , Config.build().withEncryptionLevel( Config.EncryptionLevel.NONE ).toConfig() ) )
+        {
+            // Given
+            Session session = driver.session();
+            List result;
+
+            // Sublist at start
+            result = session.run( "RETURN similarity.sublist([1, 2, 3, 4, 5], 0, 2) AS result").single().get("result").asList();
+
+            assertTrue(result.size() == 2);
+            assertTrue(result.get(0).equals(1l));
+            assertTrue(result.get(1).equals(2l));
+
+            // Sublist in the middle
+            result = session.run( "RETURN similarity.sublist([1, 2, 3, 4, 5], 2, 3) AS result").single().get("result").asList();
+
+            assertTrue(result.size() == 3);
+            assertTrue(result.get(0).equals(3l));
+            assertTrue(result.get(1).equals(4l));
+            assertTrue(result.get(2).equals(5l));
+
+            // Sublist from start but too long
+            result = session.run( "RETURN similarity.sublist([1, 2, 3, 4, 5], 0, 10) AS result").single().get("result").asList();
+
+            assertTrue(result.size() == 5);
+            assertTrue(result.get(0).equals(1l));
+            assertTrue(result.get(1).equals(2l));
+            assertTrue(result.get(2).equals(3l));
+            assertTrue(result.get(3).equals(4l));
+            assertTrue(result.get(4).equals(5l));
+
+            // Sublist from middle but too long
+            result = session.run( "RETURN similarity.sublist([1, 2, 3, 'hello', 5], 3, 10) AS result").single().get("result").asList();
+
+            assertTrue(result.size() == 2);
+            assertTrue(result.get(0).equals("hello"));
+            assertTrue(result.get(1).equals(5l));
         }
     }
 }
